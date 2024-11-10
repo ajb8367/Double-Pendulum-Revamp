@@ -1,6 +1,7 @@
 #ifndef PENDULUM_DATA_H
 #define PENDULUM_DATA_H
 
+
 namespace DoublePendulum {
 	class PendulumData {
 	private:

@@ -1,12 +1,17 @@
+
 #ifndef PENDULUM_OBJ_H
 #define PENDULUM_OBJ_H
 
+
 #include <random>
+#include "RKN8Matrix.h"
 
 // Namespace containing the Double Pendulum objects
 namespace DoublePendulum {
+	const double MASS_RATIO = 2.0;
+	const double GRAVITY = 9.81;
 
-	//
+	// The class for the actual pendulum object itself
 	class PendulumObject {
 	private:
 		// Fields
@@ -23,6 +28,9 @@ namespace DoublePendulum {
 
 
 	public:
+		// CONSTRUCTORS
+
+
 		// ACCESSORS
 
 		double getTime();
@@ -44,12 +52,6 @@ namespace DoublePendulum {
 		*/
 		void setPosition(int selector, int x, int y);
 
-		/* step - steps the double pendulum simulation
-		* [double] interval - the step interval, assumed to be positive
-		* returns [double] - the incremented time, for display or differential calculations
-		*/
-		double step(double interval);
-
 		/* setToRest - resets the system to rest, but preserves the angles and lengths.
 		*/
 		void setToRest();
@@ -61,6 +63,12 @@ namespace DoublePendulum {
 
 
 		// PUBLIC INSTANCE METHODS
+
+		/* step - steps the double pendulum simulation
+		* [double] interval - the step interval, assumed to be positive
+		* returns [double] - the incremented time, for display or differential calculations
+		*/
+		double step(double interval);
 
 		// PUBLIC STATIC METHODS
 

@@ -18,6 +18,9 @@
     <ClCompile Include="Double Pendulum Revamp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PendulumObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RKN8Matrix.h">
