@@ -129,6 +129,11 @@
   <ItemGroup>
     <ClCompile Include="Double Pendulum Revamp.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PendulumObject.h" />
+    <ClInclude Include="PendulumData.h" />
+    <ClInclude Include="RKN8Matrix.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
