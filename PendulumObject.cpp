@@ -24,8 +24,25 @@ namespace DoublePendulum {
 
 	// MUTATORS
 
-	void PendulumObject::setPosition(int selector, int x, int y) {}
-	void PendulumObject::setToRest() {}
+	void PendulumObject::setPosition(int selector, int x, int y) {
+		//if (selector < 1 || selector > 2) { throw new IllegalArgumentException("The setPosition method was given illegal selection " + selection); } //Checks if I let an illegal argument go in
+
+		double newang = atan2(x, y), newlen = hypot(x, y); //Gets the polar coordinates of the new position relative to the origin.
+
+		if (selector == 1) { ang1 = newang; len1 = newlen; } //Adjust the angle and length of bob 1
+		else { ang2 = newang; len2 = newlen; } //Adjust the angle and length of bob 2
+
+		//There's mild error here, since the input is an integer.
+		setToRest();
+	}
+	
+	
+	void PendulumObject::setToRest() {
+		time = vel1 = vel2 = acc1 = acc2 = 0;
+	}
+	
+	
+	
 	void PendulumObject::randReset(int rad) {}
 
 	// PUBLIC INSTANCE METHODS

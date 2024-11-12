@@ -45,26 +45,25 @@ namespace DoublePendulum {
 
 
 		// MUTATORS
-		/* setPosition - sets the position of one of the pendulum bobs
+		/* setPosition - sets the position of one of the pendulum bobs using cartesian positions, and converting them to relative polar coordinates.
 		* [int] selector - selects the bob, 1 being the inner, 2 being the outer, other values give an error
 		* [int] x - the x position of the bob relative to the center of the screen
 		* [int] y - the y position of the bob relative to the center of the screen
 		*/
 		void setPosition(int selector, int x, int y);
 
-		/* setToRest - resets the system to rest, but preserves the angles and lengths.
+		/* setToRest - resets the system to rest by resetting the angular velocities and accelerations but preserves the angles and lengths.
 		*/
 		void setToRest();
 
-		/* randReset - Resets the entire system with a random radius as reference
-		* [int] rad - A reference radius for the random generation
+		/* randReset - Resets the entire system with a random radius as reference to generate the pendula lengths
+		* [int] rad - A reference radius for the random generation32
 		*/
 		void randReset(int rad);
 
 
 		// PUBLIC INSTANCE METHODS
-
-		/* step - steps the double pendulum simulation
+		/* step - steps the double pendulum simulation via a RUnge-Kutta Nystrom evaluation step using the given interval (not yet adaptive step)
 		* [double] interval - the step interval, assumed to be positive
 		* returns [double] - the incremented time, for display or differential calculations
 		*/

@@ -3,7 +3,7 @@
 
 /*Constants for the RK8N method*/
 namespace RKN8Constants {
-	//
+	//For debugging, the standard step length
 	static const double STD_STEP = 0.00005;
 
 	// Cumulative time
