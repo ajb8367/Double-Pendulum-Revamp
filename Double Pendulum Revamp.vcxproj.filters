@@ -13,12 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\TestExecutables">
+      <UniqueIdentifier>{249052d3-6ea8-44d0-ab91-50e7ad4802aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Double Pendulum Revamp.cpp">
+    <ClCompile Include="AdaptiveStepTest.cpp">
+      <Filter>Source Files\TestExecutables</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleVariableTimestepTest.cpp">
+      <Filter>Source Files\TestExecutables</Filter>
+    </ClCompile>
+    <ClCompile Include="PendulumSystem.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PendulumSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PendulumObject.cpp">
+    <ClCompile Include="PendulumGraphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,10 +38,10 @@
     <ClInclude Include="RKN8Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PendulumData.h">
+    <ClInclude Include="PendulumState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PendulumObject.h">
+    <ClInclude Include="PendulumGraphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
