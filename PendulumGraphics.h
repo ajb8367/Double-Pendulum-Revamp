@@ -21,7 +21,7 @@ namespace dp {
 		* \param origin - The initial center of the system
 		* \param initial_pntr - The pointer to the state to write from
 		*/
-		PendulumGraphics(sf::Vector2f const& origin, PendulumState* initial_pntr, sf::Font& text_font);
+		PendulumGraphics(sf::Vector2f const& origin, PendulumState* initial, sf::Font& text_font);
 
 		/* Returns what circle (if any) a point is in
 		* \param point - The point to check to see what circle it lies in
@@ -30,9 +30,9 @@ namespace dp {
 		int inCircle(sf::Vector2f const& point) const;
 
 		/* Sets the system from a given pendulum state
-		* \param state_pntr - The pointer to the state to write from
+		* \param state - The pointer to the state to write from
 		*/
-		void setSystem(PendulumState* state_ptr); 
+		void setSystem(PendulumState* state); 
 
 		/* Sets the center of the system and adjusts other values
 		* \param origin - The new origin of the system
@@ -54,6 +54,12 @@ namespace dp {
 		* \param vector - The vector to keep in bounds
 		*/
 		sf::Vector2f mapInBounds(sf::Vector2f const& vector);
+
+		/* Writes to a state given the current vector coordinates
+		* \param state - state to write to
+		*/
+		void writeToState(dp::PendulumState* state);
+
 
 	private:
 		double time = 0.0;

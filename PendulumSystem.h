@@ -26,7 +26,7 @@ namespace dp {
 		void setSystem(PendulumState const& state);
 
 
-		/* Set the values of the system off of a system, then it is set to rest
+		/* Set the values of the system off of another system
 		* \param system - The system that the system is to be set to
 		*/
 		void setSystem(PendulumSystem const& system);
@@ -49,9 +49,9 @@ namespace dp {
 		
 
 		/* Write the current system to a state object
-		* \param state - A reference to the state to be overwritten
+		* \param state - A pointer to the state to be overwritten
 		*/
-		void writeToState(PendulumState& state) const;
+		void writeToState(PendulumState* state) const;
 
 		/* Increment the system by a given small time interval
 		* \param dt - The amount of time to increment the system by
@@ -69,7 +69,7 @@ namespace dp {
 		double time; // Time of the system
 
 		double mass_ratio = 2.0; // Mass ratio of the second bob to the first bob
-		double gravity = 27807.879; // Gravity of the system in pixels/second^2
+		double gravity = 2780.7879; // Gravity of the system in pixels/second^2
 
 		double len1; // Length to the first bob
 		double ang1; // Angle of the first bob to the vertical of the center

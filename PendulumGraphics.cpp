@@ -3,7 +3,7 @@
 
 
 namespace dp {
-	PendulumGraphics::PendulumGraphics(sf::Vector2f const& origin, PendulumState* initial_pntr, sf::Font& text_font) : time_text{"",text_font}, center_circle { BUTTON_RADIUS }, bob1_circle{BOB_ONE_RADIUS}, bob2_circle{BOB_TWO_RADIUS} {
+	PendulumGraphics::PendulumGraphics(sf::Vector2f const& origin, PendulumState* initial, sf::Font& text_font) : time_text{"",text_font}, center_circle { BUTTON_RADIUS }, bob1_circle{BOB_ONE_RADIUS}, bob2_circle{BOB_TWO_RADIUS} {
 		// Setting up the time text
 		time_text.setFillColor(sf::Color::Black);
 		time_text.setCharacterSize(20);
@@ -20,7 +20,7 @@ namespace dp {
 		
 		// Calling the other methods to fully set up the object
 		system_center = origin;
-		setSystem(initial_pntr);
+		setSystem(initial);
 	}
 
 	int PendulumGraphics::inCircle(sf::Vector2f const& point) const {
@@ -45,13 +45,13 @@ namespace dp {
 		return -1;
 	}
 
-	void PendulumGraphics::setSystem(PendulumState* state_ptr) {
+	void PendulumGraphics::setSystem(PendulumState* state) {
 		// Convert the values from the state into vectors
-		time = state_ptr->t;
-		bob1_position.x = static_cast<float>(state_ptr->x1);
-		bob1_position.y = -static_cast<float>(state_ptr->y1); // Swapped due to top-left corner convention
-		bob2_position.x = static_cast<float>(state_ptr->x2);
-		bob2_position.y = -static_cast<float>(state_ptr->y2);
+		time = state->t;
+		bob1_position.x = static_cast<float>(state->x1);
+		bob1_position.y = -static_cast<float>(state->y1); // Swapped due to top-left corner convention
+		bob2_position.x = static_cast<float>(state->x2);
+		bob2_position.y = -static_cast<float>(state->y2);
 
 		// Affine shift to the center
 		bob1_position += system_center;
@@ -81,6 +81,23 @@ namespace dp {
 
 	void PendulumGraphics::setCenterColor(sf::Color const& color) { center_circle.setFillColor(color);}
 
+	void PendulumGraphics::writeToState(dp::PendulumState* state) {
+		// Set the time
+		state->t = time;
+
+		// Some relative vectors
+		sf::Vector2f relative1 = bob1_position - system_center;
+		sf::Vector2f relative2 = bob2_position - system_center;
+
+		// Set the values
+		state->x1 = relative1.x;
+		state->y1 = -relative1.y;
+		state->x2 = relative2.x;
+		state->y2 = -relative2.y;
+
+	}
+
+
 	sf::Vector2f PendulumGraphics::mapInBounds(sf::Vector2f const& vector) {
 		sf::Vector2f duplicate = vector;
 		if (duplicate.x < 0.f) { duplicate.x = 0.f; } // Left cap
@@ -107,6 +124,8 @@ namespace dp {
 		target.draw(bob1_circle);
 		target.draw(bob2_circle);
 		target.draw(time_text);
+
+		//std::cout << time << std::endl;
 	}
 
 

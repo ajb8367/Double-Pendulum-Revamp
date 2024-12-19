@@ -1,6 +1,5 @@
 #include "PendulumSystem.h"
 
-
 namespace dp {
 	PendulumSystem::PendulumSystem(PendulumState const& initial) { setSystem(initial); }
 
@@ -48,13 +47,13 @@ namespace dp {
 			y += len1 * cos(ang1);
 
 			len2 = hypot(x, y); // Get the length
-			ang2 = atan2(x, y); // Get the angle relative to straight down
+			ang2 = atan2(x, -y); // Get the angle relative to straight down
 		}
 
 		// If we are writing to the first bob
 		else {
 			len1 = hypot(x, y); // Get the length
-			ang1 = atan2(x, y); // Get the angle relative to straight down
+			ang1 = atan2(x, -y); // Get the angle relative to straight down
 		}
 	}
 
@@ -64,19 +63,22 @@ namespace dp {
 
 	PendulumState PendulumSystem::getState() const {
 		PendulumState state{time}; // State to eventually return
-		writeToState(state); // Write to that state
+		writeToState(&state); // Write to that state
 		return state; // Return it
 	}
 
-	void PendulumSystem::writeToState(PendulumState& state) const {
-		state.t = time;
+	void PendulumSystem::writeToState(PendulumState* state) const {
+		state->t = time;
+
+
 		// Set the first bob positions in the state
-		state.x1 = len1 * sin(ang1);
-		state.y1 = -len1 * cos(ang1);
+		state->x1 = len1 * sin(ang1);
+		state->y1 = -len1 * cos(ang1);
+	
 
 		// Set the second bob positions based off the first
-		state.x2 = state.x1 + len2 * sin(ang2);
-		state.y2 = state.x2 - len2 * cos(ang2);
+		state->x2 = state->x1 + len2 * sin(ang2);
+		state->y2 = state->y1 - len2 * cos(ang2);
 	}
 
 
@@ -87,34 +89,35 @@ namespace dp {
 
 		// Set the first acceleration values in the array
 		_accArray[0] = acc1;
-		_accArray[8] = acc2;
+		_accArray[9] = acc2;
 
 		for (unsigned int i = 0; i < 8; ++i) { // Outer loop, by substep
 			_ang1 = _ang2 = 0.0; // Reset the temporary angles
+			_vel1 = _vel2 = 0.0; // Reset the temporary velocities
 
-			for (unsigned int j = 0; j <= i; j++) { // Inner loop, summations
+			for (unsigned int j = 0; j <= i; ++j) { // Inner loop, summations
 				// Increment inner position sums
 				_ang1 += RKN8Constants::POS_WEIGHTS[i][j] * _accArray[j];
-				_ang1 += RKN8Constants::POS_WEIGHTS[i][j] * _accArray[j + 8];
+				_ang2 += RKN8Constants::POS_WEIGHTS[i][j] * _accArray[j + 9];
 				// Increment inner velocity sums
 				_vel1 += RKN8Constants::VEL_WEIGHTS[i][j] * _accArray[j];
-				_vel2 += RKN8Constants::VEL_WEIGHTS[i][j] * _accArray[j + 8];
+				_vel2 += RKN8Constants::VEL_WEIGHTS[i][j] * _accArray[j + 9];
 			}
 
 			// Horner's rule evaluation
-			_vel1 = vel1 + dt * _vel1;
-			_vel2 = vel2 + dt * _vel2;
 			_ang1 = ang1 + dt * (vel1 * RKN8Constants::TIME_WEIGHTS[i] + dt * _ang1);
 			_ang2 = ang2 + dt * (vel2 * RKN8Constants::TIME_WEIGHTS[i] + dt * _ang2);
+			_vel1 = vel1 + dt * _vel1;
+			_vel2 = vel2 + dt * _vel2;
 
 			// Final linear map calculation
 			// Intermediate variables for the matrix
 			double angd = _ang2 - _ang1, s = sin(angd), c = cos(angd), scalar = s / (mass_ratio + s * s);
-			double u = len1 * _vel1 * _vel1 + gravity * cos(_ang1), v = -len2 * _vel2 * _vel2;
+			double u = len1 * _vel1 * _vel1 + gravity * cos(_ang1), v = len2 * _vel2 * _vel2;
 
 			// Acceleration calculations
-			_accArray[i] = (scalar * (c * u + v) - gravity * sin(_ang1)) / len1;
-			_accArray[i + 9] = scalar * ((1 + mass_ratio) * u + c * v) / len2;
+			_accArray[i + 1] = (scalar * (c * u + v) - gravity * sin(_ang1)) / len1;
+			_accArray[i + 10] = -scalar * ((1 + mass_ratio) * u + c * v) / len2;
 		}
 
 		// Update the properties
@@ -131,7 +134,7 @@ namespace dp {
 	double PendulumSystem::angleModTwoPi(double angle) {
 		double scalar = angle / M_PI; // Scalar to check to see if the nagle is in the range (-PI, PI]
 		if (scalar <= -1.0 || 1.0 < scalar) { // Check aforementioned scalar
-			angle -= 2.0 * M_PI * (1.0 + floor((scalar - 1.0) / 2.0)); // Roll it into the interval via the remainder
+			angle -= 2.0 * M_PI * (1.0 + floor((scalar - 1)/2.0)); // Roll it into the interval via the remainder
 		}
 		return angle;
 
