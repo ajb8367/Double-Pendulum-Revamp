@@ -81,7 +81,7 @@ namespace dp {
 
 	void PendulumGraphics::setCenterColor(sf::Color const& color) { center_circle.setFillColor(color);}
 
-	void PendulumGraphics::writeToState(dp::PendulumState* state) {
+	void PendulumGraphics::writeToState(dp::PendulumState* state) const{
 		// Set the time
 		state->t = time;
 

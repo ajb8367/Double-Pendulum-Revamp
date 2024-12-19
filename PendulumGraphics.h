@@ -57,8 +57,8 @@ namespace dp {
 
 		/* Writes to a state given the current vector coordinates
 		* \param state - state to write to
-		*/
-		void writeToState(dp::PendulumState* state);
+		*/ 
+		void writeToState(PendulumState* state) const;
 
 
 	private:

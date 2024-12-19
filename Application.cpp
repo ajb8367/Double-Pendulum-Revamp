@@ -119,7 +119,7 @@ int main() {
 	dp::PendulumState start_state{ 0.0, 0.0,-150.0,0.0,-250.0};
 
 
-	// The pain of loading in a damn font
+	// The pain of loading in a font
 	sf::Font consolas;
 	if (!consolas.loadFromFile("consola.ttf")) { abort(); }
 
@@ -206,7 +206,7 @@ int main() {
 		// Unpaused branch
 		if (!paused.load()) 
 		{
-			pendulum.setSystem(buffer[1]);
+			pendulum.setSystem(buffer[1]); // Write to the buffer
 		}
 		else if (mouse_held) {
 			sf::Vector2f mouse_pos{ sf::Mouse::getPosition(window) }; // Get the mouse position relative to the top left of the window
