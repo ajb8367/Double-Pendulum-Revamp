@@ -1,5 +1,4 @@
 #include "PendulumSystem.h"
-#include <cmath>
 
 
 namespace dp {

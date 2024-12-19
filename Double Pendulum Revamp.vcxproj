@@ -139,8 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AdaptiveStepTest.cpp" />
-    <ClCompile Include="ConsoleVariableTimestepTest.cpp" />
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="PendulumGraphics.cpp" />
     <ClCompile Include="PendulumSystem.cpp" />
     <ClCompile Include="PendulumSystem.h" />

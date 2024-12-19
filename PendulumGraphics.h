@@ -6,9 +6,13 @@
 
 namespace dp {
 
-	const float BUTTON_RADIUS = 30.f; // Constant for the center button radius
-	const float BOB_ONE_RADIUS = 45.f; // Constant for the first bob radius
-	const float BOB_TWO_RADIUS = 30.f; // Constant for the second bob radius
+	const float BUTTON_RADIUS = 15.f; // Constant for the center button radius
+	const float BOB_ONE_RADIUS = 25.f; // Constant for the first bob radius
+	const float BOB_TWO_RADIUS = 20.f; // Constant for the second bob radius
+
+
+
+
 
 	// Class for drawing a pendulum, extends off of SFML's drawable object class
 	class PendulumGraphics : public sf::Drawable {
@@ -42,7 +46,7 @@ namespace dp {
 		void setCenterColor(sf::Color const& color);
 
 	private:
-		double time;
+		double time = 0.0;
 
 		sf::Vector2f system_center; // Origin
 		sf::Vector2f bob1_position; // Position of the first bob
@@ -58,7 +62,9 @@ namespace dp {
 
 		// Virtual drawing function to draw the pendulum to the screen
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
+		
+		// Private method to update the drawn objects from the vectors
+		void updateObjects();
 
 	};
 }

@@ -4,6 +4,7 @@
 
 #include "PendulumState.h"
 #include "RKN8Matrix.h"
+#include <cmath>
 
 namespace dp {
 	// Class that actually simulates the system using a Runge-Kutta-Nystrom method
