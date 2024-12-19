@@ -1,9 +1,13 @@
 #include "PendulumGraphics.h"
+#include <sstream>
 
 
 namespace dp {
-	PendulumGraphics::PendulumGraphics(sf::Vector2f const& origin, PendulumState* initial_pntr) : center_circle{ BUTTON_RADIUS }, bob1_circle{ BOB_ONE_RADIUS }, bob2_circle{ BOB_TWO_RADIUS } {
-
+	PendulumGraphics::PendulumGraphics(sf::Vector2f const& origin, PendulumState* initial_pntr, sf::Font& text_font) : time_text{"",text_font}, center_circle { BUTTON_RADIUS }, bob1_circle{BOB_ONE_RADIUS}, bob2_circle{BOB_TWO_RADIUS} {
+		// Setting up the time text
+		time_text.setFillColor(sf::Color::Black);
+		time_text.setCharacterSize(20);
+		time_text.setPosition(0.f, 0.f);
 
 
 		// Shifting the origins of the circles to their actual centers
@@ -69,16 +73,40 @@ namespace dp {
 		updateObjects(); // Updating the objects
 	}
 
+	void PendulumGraphics::setBob(bool moving_second, sf::Vector2f const& new_pos) {
+		if (moving_second) { bob2_position = mapInBounds(new_pos); } // If relocating the second bob
+		else { bob1_position = mapInBounds(new_pos); } // Otherwise relocating the first
+		updateObjects(); // Update the objects
+	}
+
 	void PendulumGraphics::setCenterColor(sf::Color const& color) { center_circle.setFillColor(color);}
 
+	sf::Vector2f PendulumGraphics::mapInBounds(sf::Vector2f const& vector) {
+		sf::Vector2f duplicate = vector;
+		if (duplicate.x < 0.f) { duplicate.x = 0.f; } // Left cap
+		else {
+			float width = system_center.x * 2.f;
+			if (duplicate.x > width) { duplicate.x = width; } // Right cap
+		}
+		if (duplicate.y < 0.f) { duplicate.y = 0.f;  } // Top cap
+		else {
+			float height = system_center.y * 2.f;
+			if (duplicate.y > height) { duplicate.y = height; } // Bottom cap
+		}
+
+		return duplicate;
+	}
+
+
+
 	void PendulumGraphics::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-		// Dr
 
 		// Drawing the objects
 		target.draw(bob_line, 3, sf::LineStrip);
 		target.draw(center_circle);
 		target.draw(bob1_circle);
 		target.draw(bob2_circle);
+		target.draw(time_text);
 	}
 
 
@@ -93,6 +121,12 @@ namespace dp {
 		bob_line[0] = sf::Vertex(system_center, sf::Color::Black);
 		bob_line[1] = sf::Vertex(bob1_position, sf::Color::Black);
 		bob_line[2] = sf::Vertex(bob2_position, sf::Color::Black);
+
+		// Change the time text
+		std::ostringstream oss;
+		oss << "Time: " << time << "s" << std::endl;
+		time_text.setString(oss.str());
+
 	}
 
 }

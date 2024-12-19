@@ -13,7 +13,6 @@ namespace dp {
 
 
 
-
 	// Class for drawing a pendulum, extends off of SFML's drawable object class
 	class PendulumGraphics : public sf::Drawable {
 	public: 
@@ -22,7 +21,7 @@ namespace dp {
 		* \param origin - The initial center of the system
 		* \param initial_pntr - The pointer to the state to write from
 		*/
-		PendulumGraphics(sf::Vector2f const& origin, PendulumState* initial_pntr);
+		PendulumGraphics(sf::Vector2f const& origin, PendulumState* initial_pntr, sf::Font& text_font);
 
 		/* Returns what circle (if any) a point is in
 		* \param point - The point to check to see what circle it lies in
@@ -40,13 +39,25 @@ namespace dp {
 		*/
 		void setCenter(sf::Vector2f const& origin);
 
+		/* Sets the position of one of the system's bobs
+		* \param moving_second - If you are moving the second bob or not
+		* \param new_pos - The new intended position of the bob
+		*/
+		void setBob(bool moving_second, sf::Vector2f const& new_pos);
+
 		/* Sets the color of the center button
 		* \param color - The color to set to
 		*/
 		void setCenterColor(sf::Color const& color);
 
+		/* Takes in a vector and returns it within the bounds of the system to prevent escaping
+		* \param vector - The vector to keep in bounds
+		*/
+		sf::Vector2f mapInBounds(sf::Vector2f const& vector);
+
 	private:
 		double time = 0.0;
+		sf::Text time_text; // Text for the time
 
 		sf::Vector2f system_center; // Origin
 		sf::Vector2f bob1_position; // Position of the first bob
